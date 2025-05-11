@@ -1192,15 +1192,3 @@ python scripts/initialize.py -f
 # コンテナを再起動
 docker-compose up -d
 ```
-
-## ライセンス
-
-このプロジェクトはMITライセンスの下で公開されています。詳細については [LICENSE](LICENSE) ファイルを参照してください。
-
-## 作者
-
-あなたの名前
-
----
-
-これは業務データ統合ハブのプロジェクトです。詳細な情報や質問がある場合は、Issueを作成するか、[your-email@example.com](mailto:your-email@example.com) にお問い合わせください。
