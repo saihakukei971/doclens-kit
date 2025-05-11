@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: data_hub
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./config:/app/config
+      - ./models:/app/models
+    restart: unless-stopped
+    environment:
+      - PYTHONPATH=/app
+      - TZ=Asia/Tokyo
+      - ENV_FOR_DYNACONF=production
+
+    # Uncomment below if you want to mount NAS for archives
+    # Extra hosts for NAS (if needed)
+    # extra_hosts:
+    #   - "nas.local:192.168.1.100"
+
+    # Healthcheck
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

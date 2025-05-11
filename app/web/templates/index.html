@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>業務データ統合ハブ</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>業務データ統合ハブ</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">ホーム</a></li>
+                    <li><a href="/upload">アップロード</a></li>
+                    <li><a href="/search">検索</a></li>
+                    <li><a href="/admin">管理</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h2>企業内データを一元管理</h2>
+            <p>ドキュメントをドラッグ＆ドロップでアップロード、自動分類、全文検索で瞬時に検索</p>
+            <div class="cta-buttons">
+                <a href="/upload" class="btn btn-primary">アップロード</a>
+                <a href="/search" class="btn btn-secondary">検索</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <h3>主な機能</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h4>簡単アップロード</h4>
+                    <p>ドラッグ＆ドロップでファイルをアップロード。フォルダ監視機能で自動取込も可能。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h4>強力な検索</h4>
+                    <p>全文検索でどんな情報も瞬時に発見。メタデータによるフィルタリングも可能。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h4>自動分類</h4>
+                    <p>AIが文書タイプを自動判別し、重要情報を抽出。手作業を大幅に削減。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h4>データ分析</h4>
+                    <p>蓄積したデータから傾向を分析。業務効率化のための洞察を提供。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="recent-documents">
+            <h3>最近のドキュメント</h3>
+            <div class="document-list" id="recent-documents-list">
+                <p>読み込み中...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 業務データ統合ハブ</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', path='/js/main.js') }}"></script>
+    <script>
+        // Load recent documents on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/documents?page=1&per_page=5')
+                .then(response => response.json())
+                .then(data => {
+                    const documentsList = document.getElementById('recent-documents-list');
+                    documentsList.innerHTML = '';
+                    
+                    if (data.items && data.items.length > 0) {
+                        const ul = document.createElement('ul');
+                        data.items.forEach(doc => {
+                            const li = document.createElement('li');
+                            const date = new Date(doc.created_at).toLocaleDateString('ja-JP');
+                            li.innerHTML = `
+                                <div class="document-item">
+                                    <div class="document-title">${doc.title}</div>
+                                    <div class="document-meta">
+                                        <span class="document-type">${doc.doc_type || '未分類'}</span>
+                                        <span class="document-date">${date}</span>
+                                    </div>
+                                    <div class="document-actions">
+                                        <a href="/documents/${doc.id}" class="btn btn-small">詳細</a>
+                                        <a href="/api/documents/${doc.id}/file" class="btn btn-small">ダウンロード</a>
+                                    </div>
+                                </div>
+                            `;
+                            ul.appendChild(li);
+                        });
+                        documentsList.appendChild(ul);
+                    } else {
+                        documentsList.innerHTML = '<p>最近のドキュメントはありません</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching documents:', error);
+                    document.getElementById('recent-documents-list').innerHTML = 
+                        '<p class="error">ドキュメントの読み込みに失敗しました</p>';
+                });
+        });
+    </script>
+</body>
+</html>

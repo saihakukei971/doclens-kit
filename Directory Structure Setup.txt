@@ -1,0 +1,34 @@
+# Directory Structure Setup
+
+The following commands will create the necessary empty directories with `.gitkeep` files to maintain the directory structure in the git repository:
+
+```bash
+# Create data directories
+mkdir -p data/documents
+mkdir -p data/archives
+touch data/.gitkeep
+touch data/documents/.gitkeep
+touch data/archives/.gitkeep
+
+# Create logs directory
+mkdir -p logs
+touch logs/.gitkeep
+
+# Create models directory
+mkdir -p models
+touch models/.gitkeep
+
+# Create backups directory
+mkdir -p backups
+touch backups/.gitkeep
+```
+
+These directories are used by the application for storing:
+
+- `data/documents`: Document files uploaded to the system
+- `data/archives`: Archived documents
+- `logs`: Application log files
+- `models`: Machine learning models for document classification
+- `backups`: Database and configuration backups
+
+The `.gitkeep` files ensure that these empty directories are tracked by git, which normally ignores empty directories.

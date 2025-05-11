@@ -1,0 +1,73 @@
+# Default configuration for Business Data Integration Hub
+
+# Database settings
+DATABASE_URL = "sqlite:///data/documents.db"
+
+# Storage paths
+DOCUMENT_PATH = "data/documents"
+ARCHIVE_PATH = "data/archives"
+
+# Upload settings
+UPLOAD_SIZE_LIMIT = 2147483648  # 2GB
+ALLOWED_MIMETYPES = [
+    "application/pdf",
+    "image/jpeg",
+    "image/png",
+    "image/tiff",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "text/plain",
+    "text/csv"
+]
+
+# OCR settings
+OCR_ENABLED = true
+OCR_LANGUAGE = "jpn+eng"  # Japanese + English
+# Uncomment below if tesseract is not in PATH
+# TESSERACT_CMD = "/usr/bin/tesseract"
+
+# Archive settings
+# ARCHIVE_ZIP = true  # Uncomment to enable ZIP creation
+# REMOVE_AFTER_ZIP = false  # Uncomment to remove original files after ZIP
+
+# Folder monitoring
+# List folders to monitor for new files
+MONITORED_FOLDERS = [
+    # "/path/to/folder1",
+    # "/path/to/folder2"
+]
+
+# Security settings
+# List of allowed IP addresses or networks
+# ALLOWED_IPS = [
+#     "127.0.0.1",
+#     "192.168.1.0/24"
+# ]
+
+# API keys (for API access)
+# API_KEYS = [
+#     "your-api-key-1",
+#     "your-api-key-2"
+# ]
+
+# Web interface settings
+WEB_ENABLED = true
+WEB_HOST = "0.0.0.0"
+WEB_PORT = 8000
+
+# Logging settings
+LOG_LEVEL = "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+# Performance settings
+WORKER_THREADS = 4  # Number of worker threads for processing
+
+# Development settings (only used in development environment)
+[development]
+WEB_HOST = "localhost"
+LOG_LEVEL = "DEBUG"
+
+# Production settings (only used in production environment)
+[production]
+LOG_LEVEL = "INFO"

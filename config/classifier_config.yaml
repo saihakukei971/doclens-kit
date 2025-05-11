@@ -1,0 +1,119 @@
+# Document type classification configuration
+
+document_types:
+  - name: invoice  # 請求書
+    keywords: ['請求書', '御請求書', 'インボイス', '支払い', 'Invoice']
+    patterns:
+      - field: 'amount'
+        regex: '合計.*?([0-9,]+)円'
+      - field: 'invoice_date'
+        regex: '(発行日|請求日)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'due_date'
+        regex: '(お支払期限|支払期限)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'company'
+        regex: '(株式会社|有限会社)([^\n\r]{1,20})'
+      - field: 'invoice_number'
+        regex: '(請求書番号|No)[.：:]\s*([A-Za-z0-9\-]{1,20})'
+
+  - name: quotation  # 見積書
+    keywords: ['見積書', '御見積書', 'お見積り', 'Quotation', '見積金額']
+    patterns:
+      - field: 'amount'
+        regex: '(見積金額|合計).*?([0-9,]+)円'
+      - field: 'quotation_date'
+        regex: '(発行日|見積日)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'valid_until'
+        regex: '(有効期限|見積有効期限)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'company'
+        regex: '(株式会社|有限会社)([^\n\r]{1,20})'
+      - field: 'quotation_number'
+        regex: '(見積書番号|見積番号|No)[.：:]\s*([A-Za-z0-9\-]{1,20})'
+
+  - name: receipt  # 領収書
+    keywords: ['領収書', '領収証', 'Receipt', 'レシート']
+    patterns:
+      - field: 'amount'
+        regex: '(金額|合計|領収金額).*?([0-9,]+)円'
+      - field: 'receipt_date'
+        regex: '(発行日|日付)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'company'
+        regex: '(株式会社|有限会社)([^\n\r]{1,20})'
+      - field: 'payment_method'
+        regex: '(お支払方法|支払方法)[：:]\s*([^\n\r]{1,10})'
+
+  - name: delivery_note  # 納品書
+    keywords: ['納品書', '納品証明書', 'Delivery Note']
+    patterns:
+      - field: 'delivery_date'
+        regex: '(納品日|お届け日)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'delivery_number'
+        regex: '(納品書番号|No)[.：:]\s*([A-Za-z0-9\-]{1,20})'
+      - field: 'company'
+        regex: '(株式会社|有限会社)([^\n\r]{1,20})'
+
+  - name: contract  # 契約書
+    keywords: ['契約書', '覚書', '合意書', 'Contract', 'Agreement']
+    patterns:
+      - field: 'contract_date'
+        regex: '(契約日|締結日)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'contract_period'
+        regex: '(契約期間|有効期間)[：:]\s*([^\n\r]{5,50})'
+      - field: 'company'
+        regex: '(株式会社|有限会社)([^\n\r]{1,20})'
+
+  - name: application  # 申請書
+    keywords: ['申請書', '届出書', '願書', 'Application']
+    patterns:
+      - field: 'application_date'
+        regex: '(申請日|届出日)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'applicant'
+        regex: '(申請者|届出者)[：:]\s*([^\n\r]{1,30})'
+      - field: 'application_type'
+        regex: '(申請区分|届出区分)[：:]\s*([^\n\r]{1,20})'
+
+  - name: report  # 報告書
+    keywords: ['報告書', 'レポート', '調査書', 'Report']
+    patterns:
+      - field: 'report_date'
+        regex: '(報告日|作成日)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'reporter'
+        regex: '(報告者|作成者)[：:]\s*([^\n\r]{1,30})'
+      - field: 'report_title'
+        regex: '(件名|タイトル)[：:]\s*([^\n\r]{1,50})'
+
+  - name: minutes  # 議事録
+    keywords: ['議事録', '会議録', '打ち合わせ記録', 'Minutes', 'Meeting Minutes']
+    patterns:
+      - field: 'meeting_date'
+        regex: '(会議日|開催日)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'participants'
+        regex: '(参加者|出席者)[：:]\s*([^\n\r]{1,100})'
+      - field: 'meeting_title'
+        regex: '(会議名|タイトル)[：:]\s*([^\n\r]{1,50})'
+
+  - name: order  # 注文書
+    keywords: ['注文書', '発注書', 'Purchase Order', 'Order Form']
+    patterns:
+      - field: 'order_date'
+        regex: '(注文日|発注日)[：:]\s*(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+      - field: 'order_number'
+        regex: '(注文番号|発注番号|No)[.：:]\s*([A-Za-z0-9\-]{1,20})'
+      - field: 'amount'
+        regex: '(注文金額|合計).*?([0-9,]+)円'
+      - field: 'company'
+        regex: '(株式会社|有限会社)([^\n\r]{1,20})'
+
+# Default extraction patterns for all document types
+default_patterns:
+  - field: 'date'
+    regex: '(\d{4}[年/\-]\d{1,2}[月/\-]\d{1,2})'
+  - field: 'amount'
+    regex: '([0-9,]+)円'
+  - field: 'company'
+    regex: '(株式会社|有限会社)([^\n\r]{1,20})'
+  - field: 'email'
+    regex: '([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})'
+  - field: 'phone'
+    regex: '(0\d{1,4}[-(]?\d{1,4}[-)]?\d{4})'
+  - field: 'postal_code'
+    regex: '(〒?\d{3}[-－]?\d{4})'
